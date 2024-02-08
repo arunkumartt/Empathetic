@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="page-heading text-center">
+
+  <div class="container zoomIn animated">
+      
+      <h1 class="page-title"> ORGANIZATION REGISTRATION <span class="title-under"></span></h1>
+      {% comment %} <p class="page-description">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit Necessitatibus.
+      </p> {% endcomment %}
+      
+  </div>
+
+</div>
+<section><br><br>
+  <div class="container">
+      <div class="card" style="max-width: 1000px; margin: 0 auto;">
+          <div class="card-body" style="padding: 20px;">
+              <form method="POST" enctype="multipart/form-data" id="registration-form">
+                <p style="font-size: large;">Please fill in this form to create an account.</p>
+                <hr>
+                {% csrf_token %}
+                <div class="col-md-6">
+                  <label for="organization_name">Organization Name:</label>
+                  <input type="text" class="form-control" name="organization_name" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="username">username:</label>
+                  <input type="text" class="form-control" name="username" required style=""><br>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" name="email" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="website">Website:</label>
+                  <input type="url" class="form-control" name="website" required><br>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="phone_number">Phone number:</label>
+                  <input type="tel" class="form-control" name="phone_number" required  pattern="[0-9]{10}" minlength="10" maxlength="10">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label" for="Catagory">Type of Organization:</label>
+                  <select name="organizationtype" class="form-control " required><br><br><br><br>
+                    <option value="">Type of Organization</option>
+                    {% for type in organizationtype %}
+                    <option value="{{ type.id }}">{{ type.title }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="password">password:</label>
+                  <input type="password" class="form-control" name="password" required style="">
+                </div>
+
+                <div class="col-md-6">
+                  <label for="password">Confirm password:</label>
+                  <input type="password" class="form-control" name="conform_password" required style=""><br>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="address">Address:</label>
+                  <textarea type="text" class="form-control" maxlength="500"  name="address" required style=""></textarea>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="description">Description:</label>
+                  <textarea type="text" class="form-control" name="description" required maxlength="500" style=""></textarea><br>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="vision">Vision:</label>
+                  <textarea type="text" maxlength="500" class="form-control" name="vision" required style=""></textarea>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="mission">Mission:</label>
+                  <textarea type="text" maxlength="500" class="form-control" name="mission" required style="" ></textarea><br>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="organization_location">Location:</label>
+                  <input type="location"class="form-control" name="organization_location" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="image">ORGANIZATION Image:</label>
+                  <input class="form-control" type="file" id="image" name="Image" required style=""><br>
+                </div><br>
+
+                <div class="d-flex justify-content-center"><br>
+                  <button type="submit" class="registerbtn" style="margin-top: 40px;width: 150px;font-size: x-large;height: 50px;margin-left: 400px;" >Register</button><br><br>
+                </div>
+              </form>
+              <div id="message" style="text-align: center;font-size: larger;color: rgb(0, 255, 60);" ><b></b></div><br>
+              <div id="errormessage" style="text-align: center;font-size: larger;color: red;" ><b></b></div><br> <br>
+          </div>
+      </div>
+  </div>
+</section><br>
+
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $('#registration-form').on('submit', function(event) {
+      event.preventDefault();
+      var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+      var formData = new FormData(this); // convert form to array
+      $.ajax({
+          type: 'POST',
+          url: '/orgsave',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+              var successMessage = response.success;
+              console.log(successMessage);
+              $('#message').text(response.success);
+              setTimeout(function () {
+                  $('#message').text("");
+                  $('#registration-form')[0].reset();
+              }, 3000);
+          },
+          error: function(error) {
+              console.log(error.responseJSON);
+              var errorMessage = error.responseJSON.error;
+              console.log(errorMessage);
+              $('#errormessage').text(errorMessage);
+              setTimeout(function () {
+                  $('#errormessage').text("");
+              }, 3000);
+          }
+      });
+  });
+</script>
+
+  {% endblock %}
+
+

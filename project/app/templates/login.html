@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content%}
+
+
+
+<style>
+
+  input[type="username"],
+  input[type="password"]
+  {
+      width: 240px;
+      border-radius: 10px;
+      margin-left: 65px;
+      
+
+  }
+  label{
+    margin-left: 55px; 
+  }
+  .error-message{
+    text-align: center;
+    font-size: larger;
+    border-style: solid;
+    border-color: rgb(103, 103, 245);
+    border-width: 40px;
+    border-radius: 20px;
+
+  }
+  button{
+    width: 100px;
+    margin-left: 135px;
+  }
+  .dropbtn {
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+  }
+  
+
+  
+  .dropdown {
+	position: relative;
+	display: inline-block;
+  }
+  
+  .dropdown-content {
+	display: none;
+	min-width: 160px;
+  }
+  
+  .dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+  }
+  
+  .dropdown a:hover {background-color: #ddd;}
+  
+  .show {display: block;}
+
+  
+
+
+</style>
+
+<div class="page-heading text-center">
+
+  <div class="container zoomIn animated">   
+      <h1 class="page-title"> LOGIN <span class="title-under"></span></h1>
+  </div>
+
+</div><br>
+
+    <div class="modal-dialog" style="width: 400px;">
+      <div class="modal-content">
+        <div class="modal-body" >
+            <form id="login-form" method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+                  <div class="row">
+                    <p style="font-size: large;" >&nbsp; Please fill in this form to login.</p>
+                    <hr>
+                      <div class="col-md-6">
+                          <label for="username">Username:</label>
+                          <input type="username" class="form-control" id="username" placeholder="" name="username" required><br>
+
+                          <label for="password">Password:</label>
+                          <input class="form-control" type="password" id="new-password" name="password" placeholder="" required><br>
+                          <button type="submit" class="btn btn-primary" value="login">LOGIN</button><br>
+                      </div>
+                  </div><br>
+
+				           <p style="text-align: center;">Don't have an account?<a class="dropbtn" href="{% url "register" %}" >Register</a></p>
+				
+
+                <div id="error-message" style="text-align: center;font-size: larger;color: red;display: none;" ><b>Invalid credentials. username password is incorrect</b></div><br>
+            </form>
+        </div>
+      </div>
+    </div><br><br><br>
+
+
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $('#login-form').on('submit', function(event) {
+        event.preventDefault();
+        var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+        var formData = new FormData(this);
+        formData.append('csrfmiddlewaretoken', csrfToken);
+
+        $.ajax({
+            type: 'POST',
+            url: 'login',
+            // data: data,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+              window.location.href = data.redirect;
+            },
+            error: function(response) {
+                $('#error-message').show();
+                setTimeout(function() {
+                    $('#error-message').hide();
+                }, 3000);
+               
+            }
+        });
+    });
+</script>
+
+
+
+{% endblock %}

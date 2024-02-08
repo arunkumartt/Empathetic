@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content%}
+
+
+
+
+<div class="page-heading text-center">
+
+    <div class="container zoomIn animated">
+        <h1 class="page-title"> DONOR REGISTRATION <span class="title-under"></span></h1>        
+    </div>
+
+</div>
+
+<section><br><br>
+    <div class="container">
+        <div class="card" style="max-width: 1000px; margin: 0 auto;">
+            <div class="card-body" style="">
+                <form method="POST" enctype="multipart/form-data" id="registrationForm">
+                  <p style="font-size: large;" >Please fill in this form to create an account.</p>
+                  <hr>
+                  {% csrf_token %}
+                  <div class="col-md-6">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="username">username:</label>
+                    <input type="text" class="form-control" name="username" required style="" ><br>
+                  </div>
+          
+                  <div class="col-md-6">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" name="email" required>
+                  </div>
+          
+                  <div class="col-md-6">
+                    <label for="district">District:</label>
+                    <input type="text" id="district" class="form-control" name="district" required><br>
+                  </div>
+          
+                  <div class="col-md-6">
+                    <label for="phone_number">Phone number:</label>
+                    <input type="tel" class="form-control" name="phone_number"  pattern="[0-9]{10}" minlength="10" maxlength="10" required>
+                  </div>
+          
+             
+          
+                  <div class="col-md-6">
+                    <label for="address">Address:</label>
+                    <textarea type="text" class="form-control" name="address" row="1" required style="" ></textarea><br>
+                  </div>
+          
+                  <div class="col-md-6">
+                    <label for="place">Place:</label>
+                    <input type="text" id="place" class="form-control" name="place" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="image">ORGANIZATION Image:</label>
+                    <input class="form-control" type="file" id="image" name="Image" required style=""><br>
+                  </div>
+          
+          
+                  <div class="col-md-6">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                  </div>
+          
+                  <div class="col-md-6">
+                    <label for="password">password:</label>
+                    <input type="password" class="form-control" name="password" required style=""><br>
+                  </div><br><br><br>
+          
+                  <br>
+                  
+                    <div class="d-flex justify-content-center"><br>
+                      <button type="submit" class="registerbtn" style="margin-top: 40px;width: 150px;font-size: x-large;height: 50px;margin-left: 420px;" >Register</button><br><br>
+                    </div>
+                  </div>
+                  <div id="message" style="text-align: center;font-size: larger;color: rgb(77, 255, 0);" ><b></b></div><br>
+                  <div id="errormessage" style="text-align: center;font-size: larger;color: red;" ><b></b></div><br> <br>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section><br>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $('#registrationForm').on('submit', function(event) {
+      event.preventDefault();
+      var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+      var formData = new FormData(this); // convert form to array
+      $.ajax({
+          type: 'POST',
+          url: 'donerregistration',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+              var successMessage = response.success;
+              console.log(successMessage);
+              $('#message').text(response.success);
+              setTimeout(function () {
+                  $('#message').text("");
+                  $('#registrationForm')[0].reset();
+              }, 3000);
+          },
+          error: function(error) {
+              console.log(error.responseJSON);
+              var errorMessage = error.responseJSON.error;
+              console.log(errorMessage);
+              $('#errormessage').text(errorMessage);
+              setTimeout(function () {
+                  $('#errormessage').text("");
+              }, 3000);
+          }
+      });
+  });
+</script>
+{% endblock %}

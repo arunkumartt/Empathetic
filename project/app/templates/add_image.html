@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content%}
+
+<style type="text/css">
+    body {
+      color: #1a202c;
+      background-color: #e2e8f0;
+    }
+  
+    .card {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      border: 0 solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+    }
+  
+    .card-body {
+      padding: 1rem;
+    }
+  
+    .leftlinkpanel {
+      padding: 15px;
+    }
+  
+    .leftlink {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .leftlinkpanel {
+      margin-top: 15px;
+      border-radius: 10px;
+    }
+  </style>
+
+<div class="page-heading text-center">
+
+    <div class="container zoomIn animated">   
+        <h1 class="page-title"> ADD IMAGES <span class="title-under"></span></h1>
+    </div>
+
+</div><br>
+<div class="container">
+        <div class="col col-lg-4 col-xl-4">
+            <div class="card leftlinkpanel">
+              <a href="{% url "profile" %}" class="postporudtcs leftlink">Profile</a><a style="margin-top:-31.5px;margin-left: 250px;" href="{% url "update_organization" user.id %}" class=" myproducts leftlink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+              </svg></a>
+            <a href="{% url "password" user.id %}" class="postporudtcs leftlink" >Change Password</a>
+            <a href="{% url 'add_image' organization.id %}" class="postporudtcs leftlink">Add images</a> 
+            <a href="{% url "add_stories" organization.id %}" class="postporudtcs leftlink">Add Stories</a>
+            <a href="{% url "add_news" organization.id %}" class="postporudtcs leftlink">Add News</a>
+            <a href="{% url "add_goal" organization.id %}" class="postporudtcs leftlink">Add Goal</a>
+            <a href="{% url "notificationorganization" organization.id %}" class=" myproducts leftlink">Notification</a>
+            </div>
+        </div>
+<h1 style="text-decoration-line: underline;text-align: center;">Add Image</h1>
+<div class="panel panel-default" style="padding-top: 50px;padding-bottom: 20px;width: 880px;margin-left: 35%;">
+            
+    <form class="mx-1 mx-md-4" method="POST" enctype="multipart/form-data" id="addimage-form">
+      {% csrf_token %}
+      
+        <div class="mb-3 imag" style="">
+          <label class="label-class1" style="margin-left: 20px;">Upload multi image choose only(jpg,jpeg,webp,png)</label>
+          <input class="form-control" type="file" name="images" multiple id="multi_upload_namrce" style="border-radius: 10px;margin-left: 20px;width: 300px;" required><br>
+        </div>
+        
+
+        <!-- Move the 'org_id' input outside of the 'div' -->
+        <input type="hidden" class="form-control" name="organization_id" value="{{organization.id}}">
+
+        <div class="imgview" style="padding:10px">
+        <!-- <div class="multiimgvalidation" style="color: #FF0000;"></div>  -->
+        </div>
+
+        <button type="submit" style="width: 100%;color: rgb(255, 255, 255);background-color: rgb(74, 67, 67);height: 40px;font-size: larger;" >Post Product</button><br>
+        <div id="popupadd" style="text-align: center;font-size: large;display: none;color: rgb(0, 255, 26);">
+        image added Successfully
+        </div>
+    </form>
+</div>
+{% if multiimage %}
+      <h2 class="title-style" style="text-align: center;">UPLOADED NEWS<span class="title-under"></span></h2>
+      {% for multi in multiimage %}
+        <div class="news-container" data-image-id="{{multi.id}}">
+          <div  class="col-md-4" style="height: 350px;  width: 350px;text-align: center;  padding: 20px; margin-left: 20px;">
+            <div style="padding: 20px;border:1px solid rgb(67, 61, 255);height: 300px;border-radius: 5px;">
+              <img src="{{multi.image.url}}" alt="" style="width: 100%;height: 200px; border-radius: 5px;border: 1px solid black;margin-bottom: 10px;">
+              <!-- <h1>News:</h1> -->
+              {% comment %} <p style="margin: 0;font-size: 14px;line-height: 1.5;height: 120px;text-align: left;">{{stories.description}}</p> {% endcomment %}
+              <button  onclick='deleteUploadimage("{{multi.id}}")'>DELETE</button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}<br>
+</div>
+<div id="popupupdate" class="alert alert-success successbox" style="display:none;text-align: center;width:700px;margin-left:400px;">
+  IMAGE DELETED 
+</div><br><br>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#addimage-form').on('submit', function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+        var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+        formData.append('csrfmiddlewaretoken', csrfToken);
+
+        $.ajax({
+            type: 'POST',
+            url: '/addimagesave',  // Correct the URL based on your endpoint
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $('#popupadd').show();
+                setTimeout(function () {
+                  $('#addimage-form')[0].reset();
+                  $('#popupadd').hide();
+                  $('.imgview').empty(); // Reset image preview
+                }, 3000);
+                
+            }
+        });
+    });
+    $(document).ready(function () {
+        $(document).on('change', '#multi_upload_namrce', function (event) {
+          event.preventDefault();
+    
+          var fileInput = $(this);
+          var files = fileInput[0].files;
+          var fd = new FormData();
+    
+          $.each(files, function (i, file) {
+            fd.append('image', file);
+          });
+    
+          var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+          fd.append('csrfmiddlewaretoken', csrfToken);
+    
+          $.ajax({
+            url: '/upload_image/',
+            type: 'POST',
+            data: fd,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              console.log(data);
+              $('.imgview').append("<div class='col-md-4' data-image-id=" + data.image_id + " ><img style='width: 270px; height: 300px;' class='imgsize' src='" + data.url + "' /><input type='hidden' name='newsfeedsmultipleimg[]' value='" + data.name + "' id='hidden_image'  /><i class=''  onclick='deleteImage(" + data.image_id + ")' style='cursor: pointer;border-style: solid;border-color: black;color: black;width: 100px; height: 20px;'>delete</i></div>");
+            },
+          });
+        });
+      });
+
+    function deleteImage(imageId) {
+        $.ajax({
+          type: 'POST',
+          url: '/delete_image/',
+          data: { 'image_id': imageId, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+          success: function (data) {
+            if (data.success) {
+              // Remove the deleted image container
+              $('div[data-image-id="' + imageId + '"]').remove();
+            } else {
+              console.log('Error:', data.error_message);
+            }
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+      }
+      function deleteUploadimage(multiId) {
+      $.ajax({
+        type: 'POST',
+        url: '/delete_uploaded_image/',
+        data: { 'multi_id': multiId, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+        success: function (data) {
+          if (data.success) {
+            $('div[data-image-id="' + multiId + '"]').remove();
+            $('#popupupdate').show();
+          setTimeout(function() {
+            $('#popupupdate').hide();
+          }, 4000);
+
+          } else {
+            console.log('Error:', data.error_message);
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+    }
+</script>
+{% endblock %}

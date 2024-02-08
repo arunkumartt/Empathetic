@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <style type="text/css">
+    body {
+      margin-top: 20px;
+      color: #1a202c;
+      text-align: left;
+      background-color: #e2e8f0;
+    }
+    .main-body {
+      padding: 15px;
+    }
+    .card {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 0 solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+    }
+    .card-body {
+      flex: 1 1 auto;
+      min-height: 1px;
+      padding: 1rem;
+    }
+    .gutters-sm {
+      margin-right: -8px;
+      margin-left: -8px;
+    }
+    .gutters-sm > .col, .gutters-sm > [class*=col-] {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+    .mb-3, .my-3 {
+      margin-bottom: 1rem !important;
+    }
+    .bg-gray-300 {
+      background-color: #e2e8f0;
+    }
+    .h-100 {
+      height: 100% !important;
+    }
+    .shadow-none {
+      box-shadow: none !important;
+    }
+    h6 {
+      font-size: large;
+    }
+    .leftlinkpanel {
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+    .leftlink {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+  <div class="page-heading text-center">
+    <div class="container zoomIn animated">
+      <h1 class="page-title">UPDATE PROFILE <span class="title-under"></span></h1>
+    </div>
+  </div><br>
+  <div class="container">
+    <div class="row">
+      <div class="col col-lg-4 col-xl-4">
+        <div class="card leftlinkpanel">
+          <a href="{% url "profile" %}" class="postporudtcs leftlink">Profile</a><a style="margin-top:-31.5px;margin-left: 250px;" href="{% url 'update_donor' user.id %}" class=" myproducts leftlink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+          </svg></a>
+          <a href="{% url 'password' user.id %}" class="postporudtcs leftlink">Change Password</a>
+          <a href="{% url 'notificationdonor' donor.id %}" class="postporudtcs leftlink">Notification</a>
+          <a href="{% url 'delete_account' user.id %}" class="postporudtcs leftlink">Delete Account </a>
+        </div>
+      </div>
+      <div class="col-lg-8" style="margin-left: 35%;margin-top:-160px;">
+        <div class="card">
+          <div class="card-body">
+            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="font-size: 30px; text-decoration: underline;">UPDATE PROFILE</p><br>
+            <form id="update-form" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Name</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="name" value="{{donor.name}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Username</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="username" value="{{user.username}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Email</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="email" value="{{user.email}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Place</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="place" value="{{donor.place}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Phone Number</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input pattern="[0-9]{10}" minlength="10" maxlength="10" type="tel" class="form-control" name="phone_number" value="{{donor.phone_number}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">District</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="district" value="{{donor.district}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Address</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="address" value="{{donor.address}}">
+                </div>
+              </div><br>
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Change Profile:</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="file" id="updateimg" class="form-control" placeholder="Image" name="image" style="margin-left: 155px;width: 380px;border-radius: 10px;">
+                    <img id="profile-image" style="width: 200px;height: 200px;border-radius: 10px;margin-left: 15px;" src="{{donor.image.url}}">
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div id="popupupdate" class="alert alert-success successbox" style="display: none;">
+                    Profile updated successfully
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $('#update-form').on('submit', function(event) {
+      var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+      var formData = new FormData(this); // convert form to array
+      $.ajax({
+        type: 'POST',
+        url: '/update',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          $('#popupupdate').show();
+          setTimeout(function() {
+            $('#popupupdate').hide();
+          }, 4000);
+        },
+        error: function(response) {
+          // handle error
+        }
+      });
+      event.preventDefault();
+    });
+
+    $('#updateimg').on('change', function () {
+      var input = this;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          // Update the preview image src attribute
+          $('#profile-image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    });
+  </script>
+{% endblock %}

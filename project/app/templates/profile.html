@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+  body {
+    color: #1a202c;
+    background-color: #e2e8f0;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .leftlinkpanel {
+    padding: 15px;
+  }
+
+  .leftlink {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .leftlinkpanel {
+    margin-top: 15px;
+    border-radius: 10px;
+  }
+</style>
+{% if donor %}
+<div class="page-heading text-center">
+    <div class="container zoomIn animated">
+      <h1 class="page-title"> DONOR PROFILE <span class="title-under"></span></h1>
+    </div>
+  </div><br>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-xl-4" style=" ">
+        <div class="card leftlinkpanel">
+          <a href="{% url "profile" %}" class="postporudtcs leftlink">Profile</a><a style="margin-top:-31.5px;margin-left: 250px;" href="{% url 'update_donor' user.id %}" class=" myproducts leftlink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+          </svg></a>
+
+          <a href="{% url 'password' user.id %}" class="postporudtcs leftlink">Change Password</a>
+          <a href="{% url 'notificationdonor' donor.id %}" class="postporudtcs leftlink">Notification</a>
+          <a href="{% url 'delete_account' user.id %}" class="postporudtcs leftlink">Delete Account </a>
+          
+        </div>
+      </div>
+  
+      <div class="main-body" style="width: 950px; margin-left: 15%; ">
+        <div class="row gutters-sm">
+          <div class="card mb-6" style="border-radius: 10px; padding-left: 20px;">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <img src="{{donor.image.url}}" alt="Admin" class="rounded-circle" style="border-radius: 10px; width: 150px; height: 150px;">
+                </div>
+                <div class="col-sm-9 text-secondary" style="padding-top: 35px; font-size: 50px; padding-left: 140px; text-decoration: underline;">
+                  {{donor.name}}
+                </div>
+              </div>
+            </div>
+          </div><br><br>
+  
+          <div class="main-body" style="width:920px; margin-left: 45px;">
+            <div class="row gutters-sm">
+              <div class="card mb-6" style="border-radius: 10px; padding-left: 20px; margin-left:21%;">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0"> Name:</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{donor.name}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email:</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <a class="__cf_email__" data-cfemail="52343b22123827393f273a7c333e">{{user.email}}</a>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Address:</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{donor.address}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Phone number:</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{donor.phone_number}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">District:</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{donor.district}}
+                    </div>
+                  </div>
+                  <hr>
+  
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <a class="btn btn-info " href="{% url 'logout' %}" style="margin-left: 40%;width:100px;font-size: larger;">LOGOUT</a>
+         
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+{% elif organization %} 
+<div class="page-heading text-center">
+
+    <div class="container zoomIn animated">   
+        <h1 class="page-title"> ORGANIZATION PROFILE <span class="title-under"></span></h1>
+    </div>
+
+</div><br>
+
+<div class="container">
+	<div class="col col-lg-4 col-xl-4">
+		<div class="card leftlinkpanel">
+            <a href="{% url "profile" %}" class="postporudtcs leftlink">Profile</a><a style="margin-top:-31.5px;margin-left: 250px;" href="{% url "update_organization" user.id %}" class=" myproducts leftlink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+            </svg></a>
+            <a href=" {% url "password" user.id %} " class="postporudtcs leftlink" >Change Password</a>
+            <a href="{% url "add_image" organization.id %}" class="postporudtcs leftlink">Add images</a> 
+            <a href="{% url "add_stories" organization.id %}" class="postporudtcs leftlink">Add Stories</a>
+            <a href="{% url "add_news" organization.id %}" class="postporudtcs leftlink">Add News</a>
+            <a href="{% url "add_goal" organization.id %}" class="postporudtcs leftlink">Add Goal</a>
+            
+            <a href="{% url "notificationorganization" organization.id %}" class=" myproducts leftlink">Notification</a>
+		</div>
+	</div>
+
+
+  <div class="main-body" style="width: 1000px;margin-left: 15%;margin-top: 14px;">
+      <div class="row gutters-sm">
+          
+        
+        <div class="card mb-6" style="border-radius: 10px;padding-left: 20px;">
+            <div class="card-body" >
+                <div class="row">
+            <div class="col-sm-3">
+                <img src="{{organization.image.url}}" alt="Admin" class="rounded-circle" style="border-radius: 10px; width: 150px;height: 150px;" >
+            </div>
+            <div class="col-sm-9 text-secondary" style="padding-top: 35px;font-size: 50px;padding-left: 140px;text-decoration: underline;">
+            {{organization.organization_name}}
+            </div>
+            </div>
+        </div>
+    </div><br><br>
+    <div class="card mb-6" style="border-radius: 10px;padding-left: 20px;margin-left:0% ">
+        <div class="card-body">
+             <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">organization Name:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.organization_name}}
+            </div>
+            </div>
+            <hr> 
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Email:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            <a  class="__cf_email__" data-cfemail="52343b22123827393f273a7c333e">{{user.email}}</a>
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Address:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.address}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Phone number:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.phone_number}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">website:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.website}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Description:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.description}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Type of Organization:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.organizationtype}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Location:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.organization_location}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Vision:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.vision}}
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+            <div class="col-sm-3">
+            <h6 class="mb-0">Mission:</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+            {{organization.mission}}
+            </div>
+            </div>
+            
+            <hr>
+    
+            <div class="row">
+            <div class="col-sm-12">
+              <a class="btn btn-info " href="{% url 'logout' %}" style="margin-left: 40%;width:100px;font-size: larger;">LOGOUT</a>
+            </div>
+            </div>
+
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+  </div>
+</div><br><br>
+{% endif %}
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+</script>
+
+{% endblock %}

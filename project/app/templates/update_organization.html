@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style type="text/css">
+    body{
+      margin-top: 20px;
+      color: #1a202c;
+      text-align: left;
+      background-color: #e2e8f0;
+    }
+  
+    .main-body{
+      padding: 15px;
+    }
+  
+    .card{
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 0 solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+    }
+  
+    .card-body{
+      flex: 1 1 auto;
+      min-height: 1px;
+      padding: 1rem;
+    }
+  
+    .gutters-sm{
+      margin-right: -8px;
+      margin-left: -8px;
+    }
+  
+    .gutters-sm > .col,
+    .gutters-sm > [class*=col-]{
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+  
+    .mb-3,
+    .my-3{
+      margin-bottom: 1rem !important;
+    }
+  
+    .bg-gray-300{
+      background-color: #e2e8f0;
+    }
+  
+    .h-100{
+      height: 100% !important;
+    }
+  
+    .shadow-none{
+      box-shadow: none !important;
+    }
+  
+    h6{
+      font-size: large;
+    }
+  
+    .leftlinkpanel{
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+  
+    .leftlink{
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+  
+  <div class="page-heading text-center">
+    <div class="container zoomIn animated">
+      <h1 class="page-title">UPDATE PROFILE <span class="title-under"></span></h1>
+    </div>
+  </div>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col col-lg-4 col-xl-4">
+        <div class="card leftlinkpanel">
+          <a href="{% url "profile" %}" class="postporudtcs leftlink">Profile</a><a style="margin-top:-31.5px;margin-left: 250px;" href="{% url "update_organization" user.id %}" class=" myproducts leftlink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+          </svg></a>
+          <a href="{% url 'password' user.id %}" class="postporudtcs leftlink">Change Password</a>
+          <a href="{% url 'add_image' organization.id %}" class="postporudtcs leftlink">ADD IMAGES</a>
+          <a href="{% url 'add_stories' organization.id %}" class="postporudtcs leftlink">ADD STORIES</a>
+          <a href="{% url 'add_news' organization.id %}" class="postporudtcs leftlink">ADD NEWS</a>
+          <a href="{% url 'add_goal' organization.id %}" class="postporudtcs leftlink">ADD GOAL</a>
+        </div>
+      </div>
+      <div class="col-lg-9" style="margin-left: 35%;margin-top:-200px;border-radius: 10px;">
+        <div class="card">
+          <div class="card-body">
+            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="font-size: 30px; text-decoration: underline;">UPDATE PROFILE</p><br>
+            <form id="update-organization" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Organization Name:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="organization_name" style="border-radius: 10px;width:600px;" value="{{organization.organization_name}}">
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Phone number:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <input type="tel" class="form-control" pattern="[0-9]{10}" minlength="10" maxlength="10" name="phone_number" style="border-radius: 10px;width:600px;" value="{{organization.phone_number}}">
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Email</h4>
+                </div>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" name="email"style="border-radius: 10px;width:600px;" value="{{organization.email}}">
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Type of organization:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <select name="type_of_organization" class="form-control form-control-lg" required>
+                    <option value=" {{organization.organizationtype_id}} "> {{organization.organizationtype}} </option>
+                    {% for type_of_organizations in type_of_organization %}
+                    <option value="{{ type_of_organizations.id }}">{{ type_of_organizations.title }}</option>
+                    {% endfor %}
+                  </select>
+                  {% comment %} <input type="text" class="form-control" name="type_of_organization" style="border-radius: 10px;width:600px;" value="{{organization.organizationtype}}"> {% endcomment %}
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Organization Location</h4>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" style="border-radius: 10px;width:600px;" name="organization_location" value="{{organization.organization_location}}">
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">website:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <input type="url" class="form-control" style="border-radius: 10px;width:600px;" name="website" value="{{organization.website}}">
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Address</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" style="border-radius: 10px;width:600px;" name="address" value="{{organization.address}}">
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Description:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <textarea maxlength="500" style="height: 125px;border-radius: 10px;width:600px;" type="text" class="form-control" name="description">{{organization.description}}</textarea>
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Vision:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <textarea maxlength="1000" style="height: 125px;border-radius: 10px;width:600px;" type="text" class="form-control" name="vision">{{organization.vision}}</textarea>
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Mission:</h4>
+                </div>
+                <div class="col-sm-9">
+                  <textarea maxlength="1000" style="height: 125px;border-radius: 10px;width:600px;" type="text" class="form-control" name="mission">{{organization.mission}}</textarea>
+                </div>
+              </div><br>
+
+              <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h4 class="mb-0">Organization Image:</h4>
+                </div>
+                <div class="col-sm-9">
+                    <input type="file" id="updateimg" class="form-control" placeholder="Image" name="image" style="width:600px;border-radius: 10px;">
+                    <img id="organization-image" style="width: 300px;height: 200px;border-radius: 10px;margin-left: 15px;" src="{{organization.image.url}}">
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <button type="submit" class="btn btn-primary" style="width: 600px;border-radius: 10px;margin-left: 145px;">Save Changes</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-9">
+                  <div id="popupupdate" class="alert alert-success successbox" style="display: none;width: 820px;text-align: center;">
+                    Profile updated successfully
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      
+  
+  <br><br>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript">
+    $('#update-organization').on('submit', function(event) {
+      event.preventDefault();
+      var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+      var formData = new FormData(this);
+      $.ajax({
+        type: 'POST'
+        , url: '/updateorganization/'
+        , data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          $('#popupupdate').show();
+          setTimeout(function() {
+            $('#popupupdate').hide();
+          }, 4000);
+        }
+        , error: function(response) {
+          // Handle error
+        }
+      });
+    });
+  
+    $('#updateimg').on('change', function() {
+      var input = this;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#organization-image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    });
+  </script>
+
+{% endblock %}

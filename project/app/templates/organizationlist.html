@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content%}
+
+<div class="page-heading text-center">
+
+    <div class="container zoomIn animated">   
+        <h1 class="page-title"> ORGANIZATION LIST <span class="title-under"></span></h1>
+    </div>
+
+</div><br>
+
+<div class="main-container">
+    <div class="our-causes fadeIn animated">
+        <div class="container" id="causes-container">
+            
+            <div class="row">
+                {% for organizations in organization %}
+                        <div class="col-md-3 col-sm-6">
+                            
+                            <div class="cause"  style="border-color: black; height: 380px;text-align: justify;">
+                              <a href="{% url 'organizationsingle' organizations.id %}">
+                                <img src=" {{organizations.image.url}} " alt="" class="cause-img" style="border-color: black; height: 200px;text-align: justify;" >
+                              </a>
+                              <h2 class="cause-title" >{{organizations.organization_name}} </a></h2>
+                                {% if request.user.is_authenticated and not user.is_superuser %}
+                                      <a href="{% url "donate" organizations.id %}" class="btn btn-lg btn-primary hidden-xs " style="margin-left: 43px;background-color: #115c9b;color: white;">DONATE NOW</a>
+                                {% endif %}
+                            </div> <!-- /.cause -->
+                          
+                        </div>
+                {% endfor %}   
+            </div>
+
+           
+        </div>
+    </div> <!-- /.our-causes -->
+</div>
+
+
+{% endblock %}
